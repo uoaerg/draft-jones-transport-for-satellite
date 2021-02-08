@@ -256,53 +256,95 @@
 
                 <t>
                         Satellite channels are dominated by two fundamental
-                        characteristics,
-                        as described below:
-                                NOISE - The strength of a radio signal falls in
-                                proportion to the
-                                square of the distance traveled. For a
-                                satellite link the square of the distance
-                                traveled. For a satellite link the distance
-                                is large and so the signal becomes weak before
-                                reaching its destination. This results in a
-                                low signal-to-noise ratio. Some frequencies
-                                are particularly susceptible to atmospheric
-                                effects such as rain attenuation. For mobile
-                                applications, satellite channels are
-                                especially susceptible to multi-path
-                                distortion and shadowing (e.g., blockage by
-                                buildings). Typical bit error rates (BER)
-                                for a satellite link today are on the order
-                                of 1 error per 10 million bits (1 x 10^-7) or
-                                less frequent. Advanced error control coding
-                                (e.g., Reed Solomon) can be added to existing
-                                satellite services and is currently being used
-                                by many services. Satellite error
-                                performance approaching fiber will become
-                                more common as advanced error control coding is
-                                used in new systems. However, many legacy
-                                satellite systems will continue to exhibit
-                                higher BER than newer satellite systems and
-                                terrestrial
-                                channels.
-                        BANDWIDTH - The radio spectrum is a limited natural
-                        resource, hence there is a restricted amount of
-                        bandwidth available to satellite systems which is
-                        typically controlled by licenses. This scarcity
-                        makes it difficult to trade bandwidth to solve other
-                        design problems. Typical carrier frequencies for
-                        current, point- to-point, commercial, satellite
-                        services are 6 GHz (uplink) and 4 GHz (downlink),
-                        also known as C band, and 14/12 GHz (Ku band). A new
-                        service at 30/20 GHz (Ka band) will be emerging over the
-                        next few years. Satellite-based radio repeaters are
-                        known as transponders. Traditional C band
-                        transponder bandwidth is typically 36 MHz to
-                        accommodate one color television channel (or 1200
-                        voice channels). Ku band transponders are typically
-                        around 50 MHz. Furthermore, one satellite may carry
-                        a few dozen transponders.		
-	</t>
+                        characteristics, as described
+                        below:
+                        <dl>
+                                <dt>
+                                        NOISE:
+                                </dt>
+                                <dd>
+                                        The strength of a radio signal falls in
+                                        proportion to the
+                                        square of the distance traveled. For a
+                                        satellite link the square of the
+                                        distance
+                                        traveled. For a satellite link the
+                                        distance
+                                        is large and so the signal becomes weak
+                                        before
+                                        reaching its destination. This results
+                                        in a low
+                                        signal-to-noise ratio. Some frequencies
+                                        are particularly susceptible to
+                                        atmospheric
+                                        effects such as rain attenuation. For
+                                        mobile
+                                        applications, satellite channels are
+                                        especially susceptible to multi-path
+                                        distortion and shadowing (e.g., blockage
+                                        by
+                                        buildings). Typical bit error rates
+                                        (BER)
+                                        for a satellite link today are on the
+                                        order of
+                                        1 error per 10 million bits (1 x 10^-7)
+                                        or less
+                                        frequent. Advanced error control coding
+                                        (e.g., Reed Solomon) can be added to
+                                        existing
+                                        satellite services and is currently
+                                        being used
+                                        by many services. Satellite error
+                                        performance approaching fiber will
+                                        become
+                                        more common as advanced error control
+                                        coding is
+                                        used in new systems. However, many
+                                        legacy
+                                        satellite systems will continue to
+                                        exhibit
+                                        higher BER than newer satellite systems
+                                        and
+                                        terrestrial
+                                        channels.
+                                </dd>
+                                <dt>
+                                        Bandwidth:
+                                </dt>
+                                <dd>
+                                        The radio spectrum is a limited natural
+                                        resource, hence there is a restricted
+                                        amount of
+                                        bandwidth available to satellite systems
+                                        which is
+                                        typically controlled by licenses. This
+                                        scarcity makes
+                                        it difficult to trade bandwidth to solve
+                                        other design
+                                        problems. Typical carrier frequencies
+                                        for current,
+                                        point- to-point, commercial, satellite
+                                        services are 6 GHz (uplink) and 4 GHz
+                                        (downlink), also
+                                        known as C band, and 14/12 GHz (Ku
+                                        band). A new
+                                        service at 30/20 GHz (Ka band) will be
+                                        emerging over the
+                                        next few years. Satellite-based radio
+                                        repeaters are
+                                        known as transponders. Traditional C
+                                        band transponder
+                                        bandwidth is typically 36 MHz to
+                                        accommodate one color television channel
+                                        (or 1200 voice
+                                        channels). Ku band transponders are
+                                        typically around
+                                        50 MHz. Furthermore, one satellite may
+                                        carry a few
+                                        dozen transponders.
+                                </dd>
+                        </dl>
+                </t>
         <t>
                 Not only is bandwidth limited by nature, but the allocations for
                 commercial communications are limited by international
@@ -401,6 +443,8 @@
                                 transmitter required to provide a high bandwidth
                                 back channel. This asymmetry may have an impact
                                 on TCP performance.
+
+				XXX this needs updated for more modern returns XXX
                         </dd>
                         <dt>
                                 Variable Round Trip Times:
@@ -644,7 +688,7 @@
 	mechanism and why that mechanism may be needed.
 	</t>
 
-		<section anchor="sec:quic-4-sat-ss" title="Getting up to speed">
+		<section title="Getting up to speed">
                         <t>
                                 QUIC has an advantage that the TLS and TCP
                                 negotiations can be completed during the
@@ -676,7 +720,7 @@
                 </t>
 		</section>
 
-		<section anchor="sec:quic-4-sat-max-window" title="Maximum window">
+		<section title="Maximum window">
                         <t>
                                 The number of in-flight packets required to fill
                                 a bottleneck capacity, is dependent on the BDP.
@@ -697,7 +741,7 @@
                         </t>
 		</section>
 		
-		<section anchor="sec:quic-4-sat-loss" title="Reliability">
+		<section title="Reliability">
                         <t>
                                 Packet loss detection and loss repair will
                                 consume additional time on paths with a larger
@@ -745,10 +789,10 @@
                                 segment.
                         </t>
 		</section>
-		<section anchor="sec:quic-4-sat-flow-control" title="Flow Control">
+		<section title="Flow Control">
 		</section>
 
-		<section anchor="sec:quic-4-sat-ack-ratio" title="ACK Traffic Reduction">
+		<section title="ACK Traffic Reduction">
                         <t>
                                 Asymmetry in capacity (or in the way capacity is
                                 granted to a flow) can lead to cases where the
@@ -792,7 +836,7 @@
 		</section>
 		<section title="Packet Level Forward Error Correction">
 		</section>
-		<section title="Multi-path ????">
+		<section title="Multi-path">
 		</section>
 
 	</section>
@@ -810,7 +854,7 @@
 		<t>Upload path: from the client endpoint to a server (e.g., in the Internet).</t>
 	</list></t>
 	
-	<section anchor="sec:quic-4-sat-regression-static-small" title="Small public satellite broadband access">
+	<section title="Small public satellite broadband access">
 		<t>The tested scenario has the following path characteristics:<list style="symbols"> 
 			<t>Satellite downlink path: 10 Mbps</t>
 			<t>Satellite uplink path: 2 Mbps</t>
@@ -829,7 +873,7 @@
 		</list></t>
 	</section>
 
-	<section anchor="sec:quic-4-sat-regression-static-medium" title="Medium public satellite broadband access">
+	<section title="Medium public satellite broadband access">
 		<t>The tested scenario has the following path characteristics:<list style="symbols"> 
 			<t>Satellite downlink path: 50 Mbps</t>
 			<t>Satellite uplink path: 10 Mbps</t>
@@ -848,7 +892,7 @@
 		</list></t>
 	</section>
 
-	<section anchor="sec:quic-4-sat-regression-static-medium-cong" title="Congested medium public satellite broadband access">
+	<section title="Congested medium public satellite broadband access">
 		<t>There are cases where the uplink path is congested or where the capacity of the uplink path is not guaranteed.</t>
 		<t>The tested scenario has the following path characteristics:<list style="symbols"> 
 			<t>Satellite downlink path: 50 Mbps</t>
@@ -865,7 +909,7 @@
 		</list></t>
 	</section>
 	
-	<section anchor="sec:quic-4-sat-regression-static-medium-vari" title="Variable medium public satellite broadband access">
+	<section title="Variable medium public satellite broadband access">
 		<t>There are cases where the downlink path is congested or where, due to link layer adaptations to rain fading, the capacity of the downlink path is variable.</t>
 		<t>The tested scenario has the following path characteristics:<list style="symbols"> 
 			<t>Satellite downlink path: 50 Mbps - wait 5s - 10 Mbps</t>
@@ -882,7 +926,7 @@
 		</list></t>
 	</section>
 		
-	<section anchor="sec:quic-4-sat-regression-static-large" title="Loss-free large public satellite broadband access">
+	<section title="Loss-free large public satellite broadband access">
 		<t>The tested scenario has the following path characteristics:<list style="symbols"> 
 			<t>Satellite downlink path: 250 Mbps</t>
 			<t>Satellite uplink path: 3 Mbps</t>
@@ -901,7 +945,7 @@
 		</list></t>
 	</section>
 		
-	<section anchor="sec:quic-4-sat-regression-static-large-loss" title="Lossy large public satellite broadband access">
+	<section title="Lossy large public satellite broadband access">
 		<t>The tested scenario has the following path characteristics:<list style="symbols"> 
 			<t>Satellite downlink path: 250 Mbps</t>
 			<t>Satellite uplink path: 3 Mbps</t>
