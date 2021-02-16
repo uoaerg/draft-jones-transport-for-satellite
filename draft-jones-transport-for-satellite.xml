@@ -96,9 +96,9 @@
       specific characteristics of these paths.</t>
 
 	<t><xref target="RFC2488"></xref> and <xref target="RFC3135"></xref>
-	describes mechanisms that still enable TCP to more effectively utilize the
-	available capacity of the network path. However both application and transport
-	layers and satellite systems have evolved since. Indeed, the deployment of QUIC
+	describes mechanisms that enable TCP to more effectively utilize the
+	available capacity of the network path. Since publication both application and transport
+	layers and satellite systems have evolved since. Indeed, the development of encrypted protocols such as QUIC
 	challenges currently deployed solutions, the bandwidth of geosynchronous
 	satellite systems is less limited and we notice the emergence of large
 	constellation of Low Earth Orbit satellite systems.</t>
@@ -546,7 +546,7 @@
         acknowledgment packets (e.g., when a radio-resource management system
         has to track channel usage), or both.</t>
 
-        <t>One simple mitigation is for the remote endpoint to send compound
+        <t>One mitigation is for the remote endpoint to send compound
         acknowledgments less frequently. A rate of one ACK every RTT/4 can
         significantly reduce this traffic.</t>
       </section>
