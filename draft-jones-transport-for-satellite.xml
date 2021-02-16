@@ -95,11 +95,19 @@
       performance when using the defaults in standard mechanisms, due to the
       specific characteristics of these paths.</t>
 
-      <t>For TCP, the satellite path characteristics are often hidden from
+	<t><xref target="RFC2488"></xref> and <xref target="RFC3135"></xref>
+	describes mechanisms that still enable TCP to more effectively utilize the
+	available capacity of the network path. However both application and transport
+	layers and satellite systems have evolved since. Indeed, the deployment of QUIC
+	challenges currently deployed solutions, the bandwidth of geosynchronous
+	satellite systems is less limited and we notice the emergence of large
+	constellation of Low Earth Orbit satellite systems.</t>
+
+      <!-- <t>For TCP, the satellite path characteristics are often hidden from
       transport protocol connections by the use of Performance Enhancing
       Proxies, this however restricts the deployment of new protocols and
-      mechanisms to updates of proxies and in the case of encrypted protocols
-      this enhancement is limited.</t>
+      mechanisms to updates of proxies. In the case of encrypted protocols
+      this enhancement is limited.</t> -->
 
       <t>This document describes the characterises of common satellite paths
       and the considerations required when implementing and deploying reliable
@@ -133,11 +141,11 @@
       performance can be effected by the magnitude and variability of the
       network delay. When transport protocols perform poorly the link
       utilization can be low. Techniques and recommendations have been made
-      that cab improve the performance of transport protocols when the path
+      that can improve the performance of transport protocols when the path
       includes as satellite network. </t>
 
       <t>For TCP, much of this advice and these techniques have been
-      implemented in Performance Enhancing Proxies (PEPs) that split the
+      implemented in Performance Enhancing Proxies (PEPs)<xref target="RFC3135"></xref> that split the
       protocol at the transport layer. The use of PEPs slows the deployment of
       new transport protocols and mechanisms and their ubiquity has made it
       difficult for new protocol extensions to achieve comparable performance
@@ -146,6 +154,7 @@
       PEP and mitigations must be instead implemented by the transport
       protocol.</t>
 
+	<!-- NK : I am not sure whether we should keep the following paragraph -->
       <t>The end-to-end performance of an application using an Internet path
       can be impacted by the Bandwidth-Delay Product (BDP) of the links and
       network devices forming the path. For instance, the page load time for a
@@ -157,13 +166,20 @@
       path characteristics that can occur. This document therefore considers
       the specific implications of paths with a significant BDP.</t>
 
-      <t>This document is divided as follows: Section 2 identifies common
+      <t>This document describes the characterises of common satellite paths to complement the description of <xref target="RFC2488"></xref>.
+      The considerations required when implementing and deploying reliable
+      transport protocols are described in the light of the changes since the publication of <xref target="RFC2488"></xref>. It discusses available network mitigations and
+      offers advice to designers and operators of protocols and satellite
+      networks. It proposes a generic discussion that applies end-to-end and within splitting proxies when relevant.</t>
+
+
+      <t>This document is divided as follows: TBD</t> <!-- NK : I propose to keep this section for when we converge on the document organization Section 2 identifies common
       characteristics of a SATCOM network that can impact the operation of the
       transport protocols. Section 3 outlines two non-TCP mechanisms that
       enable TCP to more effectively utilize the available capacity. Section 4
       outlines TCP mechanisms defined by the IETF that may benefit satellite
       networks. Finally, Section 5 provides a summary of the features
-      recomended for modern transports.</t>
+      recomended for modern transports.</t> -->
     </section>
 
     <section title="Satellite Characteristics">
@@ -357,13 +373,32 @@
         conditions.</t>
       </section>
 
-      <section title="Medium Earth Orbit (MEO)">
-        <t></t>
+      <section title="Low Earth Orbit (LEO)">
+	<t>There is an important variability of LEO systems. Depending on the
+	locations of the gateways on the ground, routing within the constellation may
+	be necessary to bring to packets down to the ground. Depending on the routes
+	currently available for an end user, important jitter may occur (from 40ms to
+	140ms with Iridium constellation). This may lead to out-of-order delivery of
+	packets.</t>
       </section>
 
-      <section title="Low Earth Orbit (LEO)">
-        <t></t>
+      <section title="Medium Earth Orbit (MEO)">
+	<t>MEO systems such as O3B combines advantages and drawbacks from both
+	LEO and GEO systems.</t>
+	<t>In terms of advantages, we can notice a large coverage and a limited
+	amount of satellites required ro provide a broad service. Morever, the usage of
+	powerfull satellites enables to provide high datarates.</t>
+	<t>In terms of drawbacks, from a transport protocol perspective, the
+	BDP can be very high due to the altitude of such constellations (8 063 km for
+	O3B) and there may be delay variations when the sallite changes (every 45
+	minutes with O3B). The latter can be dealt with by the means of double antennas
+	terminals.</t>
       </section>
+
+      <section title="Hybrid Networks">
+        <t> TBD </t>
+      </section>
+
     </section>
 
     <section title="Mitigations Below the Transport Layer">
@@ -385,6 +420,10 @@
         tradeoffs.</t>
       </section>
 
+    </section>
+
+    <section title="Isolating the satellite systems">
+
       <section title="Split TCP">
         <t>High BDP networks commonly break the TCP end-to-end paradigm to
         adapt the transport protocol. Splitting a TCP connection allows
@@ -393,7 +432,7 @@
         Enhancement Proxy (PEP) for compression, caching and TCP acceleration
         services <xref target="RFC3135"> </xref> . Their deployment can result
         in significant performance improvement (e.g., a 50% page load time
-        reduction in a SATCOM use-case <xref target="ICCRG100"> </xref> .</t>
+        reduction in a SATCOM use-case <xref target="ICCRG100"> </xref>.</t>
 
         <t><xref target="NCT13"> </xref> and <xref target="RFC3135"> </xref>
         describe the main functions of a SATCOM TCP split solution. For
@@ -426,66 +465,43 @@
       </section>
 
       <section title="Application Proxies">
-        <t>Authenticated proxies;</t>
+        <t>Authenticated proxies:<list style="symbols">
+		<t>Split some functions, so the proxy needs to agree on the formats/semantics of the protocol info that is changed</t>
+		<t>Need a trust relationship - need to be authenticated, and understand what is modified</t>
+		<t>Proxy needs to be on-path, which places constraints on the routing via the box </t>
+		<t>Need to discover the device, which might vary by user - by service - etc.</t>
+		</list></t>
       </section>
     </section>
 
-    <section title="Transport Protocol Mechanisms">
+    <section title="Generic Transport Protocol Mechanisms">
       <t>This section outlines transport protocol mechanisms that may be
       necessary in satellite or hybrid satellite/terrestrial networks to
       better utilize the available capacity of the link. These mechanisms may
       also be needed to fully utilize fast terrestrial channels. Furthermore,
       these mechanisms do not fundamentally hurt performance in a shared
       terrestrial network. Each of the following sections outlines one
-      mechanism and why that mechanism may be needed.</t>
+      mechanism and why that mechanism may be needed. These mechanisms may be applied end-to-end or within a proxy when possible.</t>
 
-      <t><list style="symbols">
+      <section title="Transport initialization">
           <t>Transport initialization: the 3-way handshake takes a longer time
           to complete, delaying the time to send data (several transport
-          protocol exchanges may be needed, such as TLS);</t>
-
-          <t>Size of windows required: to fully exploit the bottleneck
-          capacity, a high BDP requires a larger number of in-flight
-          packets;</t>
-
-          <t>Reliability: packet loss detection and correction is slow (the
-          performance of end-to-end retransmission is also impacted when using
-          a high RTT path);</t>
-
-          <t>Getting up to speed: many congestion control methods employ an
-          exponential increase in the sending rate during slow start (for path
-          capacity probing), a high RTT will increase the time to reach a
-          specific rate;</t>
-
-          <t>Asymmetry : when the links are asymmetric, for various reasons,
-          the the return path may modify the rate and/timing of transport
-          acknowledgment traffic, potentially changing behaviour (e.g.,
-          limiting the forward sending rate).</t>
-        </list></t>
+          protocol exchanges may be needed, such as TLS).</t>
+      </section>
 
       <section title="Getting up to speed">
-        <t>QUIC has an advantage that the TLS and TCP negotiations can be
-        completed during the transport connection handshake. This can reduce
-        the time to transmit the first data. Results of <xref
+        <t>Results of <xref
         target="IJSCN19"> </xref> illustrate that it can still take many RTTs
         for a CC to increase the sending rate to fill the bottleneck capacity.
         The delay in getting up to speed can dominate performance for a path
         with a large RTT, and requires the congestion and flow controls to
         accommodate the impact of path delay.</t>
-
-        <t>One relevant solution is tuning of the initial window described in
-        <xref target="I-D.irtf-iccrg-sallantin-initial-spreading"> </xref> ,
-        which has been shown to improve performance both for high BDP and more
-        common BDP <xref target="CONEXT15"> </xref> <xref target="ICC16">
-        </xref> . Such a solution requires using sender pacing to avoid
-        generating bursts of packets in a network.</t>
       </section>
 
-      <section title="Maximum Congestion Window">
-        <t>The number of in-flight packets required to fill a bottleneck
-        capacity, is dependent on the BDP. Default values of maximum windows
-        may not be suitable for a SATCOM context.</t>
-
+      <section title="Size of windows required">
+          <t>Size of windows required: to fully exploit the bottleneck
+          capacity, a high BDP requires a larger number of in-flight
+          packets.</t>
         <t>Such as presented in <xref target="PANRG105"> </xref> , only
         increasing the initial congestion window is not the only way that can
         improve QUIC performance in a SATCOM context: increasing maximum
@@ -495,6 +511,9 @@
       </section>
 
       <section title="Reliability">
+          <t>Reliability: packet loss detection and correction is slow (the
+          performance of end-to-end retransmission is also impacted when using
+          a high RTT path).</t>
         <t>Packet loss detection and loss repair will consume additional time
         on paths with a larger RTT. The RTT also determines the time needed by
         a server to react to a congestion event. Both can impact the user
@@ -503,31 +522,21 @@
 
         <t>End-to-end packet Forward Error Correction offers an alternative to
         retransmission with different tradeoffs in terms of utilised capacity
-        and repair capability.</t>
-
-        <t>Network coding as proposed in <xref
-        target="I-D.swett-nwcrg-coding-for-quic"> </xref> and <xref
-        target="I-D.roca-nwcrg-rlc-fec-scheme-for-quic"> </xref> could help
-        QUIC recover from link or congestion loss. Another approach could
-        utilise QUIC tunnels <xref target="I-D.schinazi-masque"> </xref> to
-        apply FEC to all or a part of the end-to-end path.</t>
+        and repair capability. A discussion on the interaction between network coding and congestion is proposed in <xref target="I-D.irtf-nwcrg-coding-and-congestion"></xref></t>
 
         <t>The benefits of introducing FEC need to weighed against the
         additional capacity introduced by end-to-end FEC and the opportunity
         to use link-local ARQ and/or link-adaptive FEC. A transport
         connections can suffer link-related losses from a particular link
         (e.g., Wi-Fi), but also congestion loss (e.g. router buffer overflow
-        in a satellite operator ground segment or along an Internet path).
-        Mechanisms have been proposed in <xref
-        target="I-D.ferrieux-hamchaoui-quic-lossbits"> </xref> , to identify
-        congestion losses in the ground segment.</t>
+        in a satellite operator ground segment or along an Internet path).</t>
       </section>
 
-      <section title="Flow Control">
-        <t>Flow control timeliness; size of window; auto-scaling</t>
-      </section>
-
-      <section title="ACK Traffic Reduction">
+      <section title="Asymmetry">
+          <t>Asymmetry : when the links are asymmetric, for various reasons,
+          the the return path may modify the rate and/timing of transport
+          acknowledgment traffic, potentially changing behaviour (e.g.,
+          limiting the forward sending rate).</t>
         <t>Asymmetry in capacity (or in the way capacity is granted to a flow)
         can lead to cases where the transmission in one direction of
         communication is restricted by the transmission of the acknowledgment
@@ -537,6 +546,47 @@
         acknowledgment packets (e.g., when a radio-resource management system
         has to track channel usage), or both.</t>
 
+        <t>One simple mitigation is for the remote endpoint to send compound
+        acknowledgments less frequently. A rate of one ACK every RTT/4 can
+        significantly reduce this traffic.</t>
+      </section>
+
+	<section title="Split congestion control capabilities"></section>
+
+	<t> Split may be possible and then, reliability would be guaranteed in
+	each split segment. Moreover, the congestion control can be
+	specifically tuned to the SATCOM use-case.</t>
+
+      <section title="Packet Level Forward Error Correction"></section>
+	<!-- This is somehow covered by Reliability section IMHO-->
+      <section title="Multi-path"></section>
+	<!-- I think this may be out of scope at the moment -->
+    </section>
+
+    <section title="TCP Protocol Mechanisms">
+
+      <section title="Transport initialization">
+
+      </section>
+
+      <section title="Getting up to speed">
+        <t>One relevant solution is tuning of the initial window described in
+        <xref target="I-D.irtf-iccrg-sallantin-initial-spreading"> </xref><xref target="RFC6928"></xref>,
+        which has been shown to improve performance both for high BDP and more
+        common BDP <xref target="CONEXT15"> </xref> <xref target="ICC16">
+        </xref>. Such a solution requires using sender pacing to avoid
+        generating bursts of packets in a network.</t>
+      </section>
+
+      <section title="Size of windows required">
+
+      </section>
+
+      <section title="Reliability">
+
+      </section>
+
+      <section title="Asymmetry">
         <t>TCP Performance Implications of Network Path Asymmetry <xref
         target="RFC3449"> </xref> describes a range of mechanisms that have
         been used to mitigate the impact of path asymmetry, primarily
@@ -548,17 +598,57 @@
         the transport layer header information of TCP ACK packets. This is not
         possible when the transport layer information is encrypted (e.g.,
         using an IP VPN).</t>
-
-        <t>One simple mitigation is for the remote endpoint to send compound
-        acknowledgments less frequently. A rate of one ACK every RTT/4 can
-        significantly reduce this traffic. The QUIC transport specification
-        may evolve to allow the ACK Ratio to be adjusted.</t>
       </section>
 
-      <section title="Packet Level Forward Error Correction"></section>
-
-      <section title="Multi-path"></section>
+	<section title="Split congestion control capabilities"></section>
+	<t> TCP can be split to allow recovery on loss segments (e.g. poor
+	Wi-Fi links) and tuned congestion control.</t>
     </section>
+
+    <section title="QUIC Protocol Mechanisms">
+
+      <section title="Transport initialization">
+        <t>QUIC has an advantage that the TLS and TCP negotiations can be
+        completed during the transport connection handshake. This can reduce
+        the time to transmit the first data. Moreover, using 0-RTT may further reduce the connection time for users reconnecting to a server.</t>
+      </section>
+
+      <section title="Getting up to speed">
+	<t>Getting up to speed may be easier with the usage of the 0-RTT-BRP extension proposed in <xref target="I-D.kuhn-quic-0rtt-bdp"></xref>.</t>
+      </section>
+
+      <section title="Size of windows required">
+
+      </section>
+
+      <section title="Reliability">
+
+        <t>Network coding as proposed in <xref
+        target="I-D.swett-nwcrg-coding-for-quic"> </xref> and <xref
+        target="I-D.roca-nwcrg-rlc-fec-scheme-for-quic"> </xref> could help
+        QUIC recover from link or congestion loss.</t>
+        <t>Another approach could
+        utilise QUIC tunnels <xref target="I-D.schinazi-masque"> </xref> to
+        apply FEC to all or a part of the end-to-end path or enable local retransmissions.</t>
+
+        <t>Mechanisms have been proposed in <xref
+        target="I-D.ferrieux-hamchaoui-quic-lossbits"> </xref> , to identify
+        congestion losses in the ground segment.</t>
+
+      </section>
+
+      <section title="Asymmetry">
+	<t>The QUIC transport specification
+        may evolve to allow the ACK Ratio to be adjusted.</t>
+	<t>Default could be adapted following <xref target="I-D.fairhurst-quic-ack-scaling"></xref> or using extensions to tune acknowledgement strategies <xref target="I-D.iyengar-quic-delayed-ack"></xref>.</t>
+      </section>
+
+	<section title="Split congestion control capabilities"></section>
+	<t>Split the congestion control requires the deployment of application
+	proxies.</t>
+
+  </section>
+
 
     <section anchor="sec:discussion" title="Discussion">
       <t>Many of the issues identified for high BDP paths already exist when
@@ -879,15 +969,22 @@
 
       <?rfc include="reference.I-D.schinazi-masque.xml"?>
 
+
+      <?rfc include="reference.I-D.fairhurst-quic-ack-scaling.xml"?>
+      <?rfc include="reference.I-D.iyengar-quic-delayed-ack.xml"?>
+
       <?rfc include="reference.I-D.ferrieux-hamchaoui-quic-lossbits.xml"?>
+
+      <?rfc include="reference.I-D.kuhn-quic-0rtt-bdp.xml"?>
 
       <!-- <?rfc include="reference.I-D.ietf-quic-tls.xml"?> -->
 
       <!-- <?rfc include="reference.I-D.ietf-quic-transport.xml"?> -->
 
-      <?rfc include="reference.I-D.ietf-quic-recovery.xml"?>
+      <!-- <?rfc include="reference.I-D.ietf-quic-recovery.xml"?> -->
 
       <!-- <?rfc include="reference.I-D.ietf-tls-ticketrequests.xml"?> -->
+      <?rfc include="reference.I-D.irtf-nwcrg-coding-and-congestion.xml"?>
 
       <?rfc include="reference.I-D.irtf-iccrg-sallantin-initial-spreading.xml"?>
 
