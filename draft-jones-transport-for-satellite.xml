@@ -113,15 +113,15 @@
     <section anchor="sec:introduction" title="Introduction">
       <t>Satellite communications (SATCOM) systems have long been used to
       support point-to-point links and specialised networks. The predominate
-      current use is to support Internet Protocols. Typical example
+      current use today is to support Internet Protocols. Typical example
       applications include: use as an access technology for remote locations,
       backup and rapid deployment of new services, transit networks, backhaul
-      of various types of IP networks, and provision to mobile (maritime,
-      aircraft, etc.). In most scenarios, the satellite IP network segment
-      usually only forms one part of the end-to-end path used by the Internet
-      transport protocol. This means that user traffic can experiences a path
-      that includes satellite network combined with a wide variety of other
-      network technologies (Ethernet, cable modems, WiFi, cellular, radio
+      of various types of IP networks, and provision to mobile environments
+      (maritime, aircraft, etc.). In most scenarios, the satellite IP network
+      segment usually only forms one part of the end-to-end path used by the
+      Internet transport protocol. This means that user traffic can experience
+      a path that includes satellite network combined with a wide variety of
+      other network technologies (Ethernet, cable modems, WiFi, cellular, radio
       links, etc). Although a user can sometimes know the presence of a
       satellite service, a typical user does not deploy special software or
       applications because they expect a satellite network is being used. A
@@ -129,11 +129,11 @@
       the network path.</t>
 
       <t>Satellite path characteristics have an effect on the operation of
-      transport protocols, such as TCP, SCTP or QUIC. Transport Protocols
+      transport protocols, such as TCP, SCTP or QUIC. Transport Protocol
       performance can be effected by the magnitude and variability of the
       network delay. When transport protocols perform poorly the link
       utilization can be low. Techniques and recommendations have been made
-      that cab improve the performance of transport protocols when the path
+      that can improve the performance of transport protocols when the path
       includes as satellite network. </t>
 
       <t>For TCP, much of this advice and these techniques have been
@@ -159,11 +159,13 @@
 
       <t>This document is divided as follows: Section 2 identifies common
       characteristics of a SATCOM network that can impact the operation of the
-      transport protocols. Section 3 outlines two non-TCP mechanisms that
-      enable TCP to more effectively utilize the available capacity. Section 4
-      outlines TCP mechanisms defined by the IETF that may benefit satellite
-      networks. Finally, Section 5 provides a summary of the features
-      recomended for modern transports.</t>
+      transport protocols. Section 3 discusses specific deployment concerns for
+      radio systems and different satelliet networks.  Section 4 outlines
+      exististing deployed mitigations that are active below the transport
+      protocol layer.  Section 5 outlines transport protocol mechanisms defined
+      that may benefit with satellite networks specific tuning and
+      optimization.  Finally, Section 6 provides a summary of the features
+      recomended for modern transport protocols.</t>
     </section>
 
     <section title="Satellite Characteristics">
@@ -172,15 +174,16 @@
       communications satellites.</t>
 
       <t>Many communications satellites are located at Geostationary Orbit
-      (GSO) with an altitude of approximately 36,000 km [Sta94]. At this
-      altitude the orbit period is the same as the Earth's rotation period.
-      Therefore, each ground station is always able to "see" the orbiting
-      satellite at the same position in the sky. The propagation time for a
-      radio signal to travel twice that distance (corresponding to a ground
-      station directly below the satellite) is 239.6 milliseconds (ms)
-      [Mar78]. For ground stations at the edge of the view area of the
-      satellite, the distance traveled is 2 x 41,756 km for a total
-      propagation delay of 279.0 ms [Mar78]. These delays are for one ground
+      (GSO) with an altitude of approximately 36,000 km <xref
+      target="Sta94"></xref>. At this altitude the orbit period is the same as
+      the Earth's rotation period.  Therefore, each ground station is always
+      able to "see" the orbiting satellite at the same position in the sky. The
+      propagation time for a radio signal to travel twice that distance
+      (corresponding to a ground station directly below the satellite) is 239.6
+      milliseconds (ms) <xref target="Mar78"></xref>. For ground stations at
+      the edge of the view area of the satellite, the distance traveled is 2 x
+      41,756 km for a total propagation delay of 279.0 ms <xref
+      target="Mar78"></xref>. These delays are for one ground
       station-to-satellite-to-ground station route (or "hop"). Therefore, the
       propagation delay for a message and the corresponding reply (one
       round-trip time or RTT) could be at least 558 ms. The RTT is not based
@@ -193,45 +196,46 @@
       signals, additional delay may be added.</t>
 
       <t>Other orbits are possible for use by communications satellites
-      including Low Earth Orbit (LEO) [Stu95] [Mon98] and Medium Earth Orbit
-      (MEO) [Mar78]. The lower orbits require the use of constellations of
-      satellites for constant coverage. In other words, as one satellite
-      leaves the ground station's sight, another satellite appears on the
-      horizon and the channel is switched to it. The propagation delay to a
-      LEO orbit ranges from several milliseconds when communicating with a
-      satellite directly overhead, to as much as 80 ms when the satellite is
-      on the horizon. These systems are more likely to use inter-satellite
-      links and have variable path delay depending on routing through the
-      network.</t>
+      including Low Earth Orbit (LEO) <xref target="Stu95"></xref> <xref
+      target="Mon98"></xref> and Medium Earth Orbit (MEO) <xref
+      target="Mar78"></xref>. The lower orbits require the use of
+      constellations of satellites for constant coverage. In other words, as
+      one satellite leaves the ground station's sight, another satellite
+      appears on the horizon and the channel is switched to it. The propagation
+      delay to a LEO orbit ranges from several milliseconds when communicating
+      with a satellite directly overhead, to as much as 20 ms when the
+      satellite is on the horizon. These systems are more likely to use
+      inter-satellite links and have variable path delay depending on routing
+      through the network.</t>
 
       <t>Satellite channels are dominated by two fundamental properties, as
       described below: </t>
 
       <t><list style="symbols">
           <t>Packet Loss: The strength of a radio signal falls in proportion
-          to the square of the distance traveled. For a satellite link the
-          square of the distance traveled. For a satellite link the distance
-          is large and so the signal becomes weak before reaching its
-          destination. This results in a low signal-to-noise ratio. Some
-          frequencies are particularly susceptible to atmospheric effects such
-          as rain attenuation. For mobile applications, satellite channels are
-          especially susceptible to multi-path distortion and shadowing (e.g.,
-          blockage by buildings). Typical bit error rates (BER) for a
-          satellite link today are on the order of 1 error per 10 million bits
-          (1 x 10^-7) or less frequent. Advanced error control coding (e.g.,
-          Reed Solomon) can be added to existing satellite services and is
-          currently being used by many services. Satellite error performance
-          approaching fiber will become more common as advanced error control
-          coding is used in new systems. However, many legacy satellite
-          systems will continue to exhibit higher BER than newer satellite
-          systems. TCP uses all packet drops as signals of network congestion
-          and reduces its window size in an attempt to alleviate the
-          congestion. In the absence of knowledge about why a packet was
-          dropped (congestion or corruption), TCP must assume the drop was due
-          to network congestion to avoid congestion collapse [Jac88] [FF98].
-          Therefore, packets dropped due to corruption cause TCP to reduce the
-          size of its sliding window, even though these packet drops do not
-          signal congestion in the network.</t>
+	  to the square of the distance traveled. For a satellite link the
+	  square of the distance traveled. For a satellite link the distance is
+	  large and so the signal becomes weak before reaching its destination.
+	  This results in a low signal-to-noise ratio. Some frequencies are
+	  particularly susceptible to atmospheric effects such as rain
+	  attenuation. For mobile applications, satellite channels are
+	  especially susceptible to multi-path distortion and shadowing (e.g.,
+	  blockage by buildings). Typical bit error rates (BER) for a satellite
+	  link today are on the order of 1 error per 10 million bits (1 x
+	  10^-7) or less frequent. Advanced error control coding (e.g., Reed
+	  Solomon) can be added to existing satellite services and is currently
+	  being used by many services. Satellite error performance approaching
+	  fiber will become more common as advanced error control coding is
+	  used in new systems. However, many legacy satellite systems will
+	  continue to exhibit higher BER than newer satellite systems. TCP uses
+	  all packet drops as signals of network congestion and reduces its
+	  window size in an attempt to alleviate the congestion. In the absence
+	  of knowledge about why a packet was dropped (congestion or
+	  corruption), TCP must assume the drop was due to network congestion
+	  to avoid congestion collapse <xref target="Jac88"></xref> <xref
+	  target="FF98"></xref>.  Therefore, packets dropped due to corruption
+	  cause TCP to reduce the size of its sliding window, even though these
+	  packet drops do not signal congestion in the network.</t>
 
           <t>Bandwidth: The radio spectrum is a limited natural resource,
           hence there is a restricted amount of bandwidth available to
@@ -245,7 +249,7 @@
           limited by nature, but the allocations for commercial communications
           are limited by international agreements so that this scarce resource
           can be used fairly by many different communications
-          applications.Typical carrier frequencies for current, point-
+          applications. Typical carrier frequencies for current, point-
           to-point, commercial, satellite services are 6 GHz (uplink) and 4
           GHz (downlink), also known as C band, and 14/12 GHz (Ku band).
           Services also utilise higher bands, including 30/20 GHz (Ka band).
@@ -261,13 +265,13 @@
           satellite channels (e.g., approximately 250 ms over a geosynchronous
           satellite) it may take The propagation delay of some satellite
           channels (e.g., approximately 250 ms over a geosynchronous
-          satellite) may requirte more time for a sender to determine whether
+          satellite) may require more time for a sender to determine whether
           or not a packet has been successfully received at the final
           destination. This delay impacts interactive applications as well as
           loss recovery, congestion control, flow control, and other
-          algorithms (see section 4).</t>
+          algorithms (see Section XXX).</t>
 
-          <t>Large delay*bandwidth product: The delay*bandwidth product (DBP)
+          <t>Large bandwidth delay product: The bandwidth delay product (BDP)
           defines the amount of data aprotocol should have "in flight" (data
           that has been transmitted, but not yet acknowledged) at any one time
           to fully utilize the available capacity. The delay used in this
@@ -300,18 +304,21 @@
       <t>Satellite communications systems have been deployed using many space
       orbits, including low earth orbit, medium earth orbits, geosynchronous
       orbits, elliptical orbits and more. This document considers the
-      characteristics of all satellite networks with a focus on Geosynchronous
-      Earth Orbit (GEO) satellite systems.</t>
+      characteristics of all satellite networks. 
+      XXX This document currently focuses on Geosynchronous Earth Orbit (GEO)
+      satellite systems, the authors solicite feedback and experience from
+      users and operators of satellite systems in other orbits. XXX
+      </t>
 
       <section title="Impact of Radio Transmission">
         <t>Packets sent over radio channels need to be sent in frames that
         need to be allocated resources (bandwidth, power, time) for their
         transmission. </t>
 
-        <t>t is common to consider the satellite network segment composed of a
+        <t>It is common to consider the satellite network segment composed of a
         forward link and a return link. The two links can have different
         capacities and employ different technologies to carry the IP packets.
-        On the forward link, the satellite gateway often uses all the
+        On the forward link, the satellite gateway often manages all the
         available capacity, possibly with several carriers, to communicate
         with a set of remote terminals. A carrier is a single
         Time-Division-Multiplexing (TDM) channel that multiplexes packets
@@ -328,9 +335,9 @@
         More information on satellite links characteristics can be found in
         <xref target="RFC2488"></xref> <xref target="IJSCN17"></xref>.</t>
 
-        <t>There are trade-offs in terms of overall system efficiency and
-        performance observed by a user. Most systems incur delay to ensure
-        overall system performance.</t>
+	<t>There are trade-offs in terms of overall system efficiency and
+	performance observed by a user. Most systems incur additional delay to
+	ensure overall system performance.</t>
       </section>
 
       <section title="Geosynchronous Earth Orbit (GEO)">
@@ -358,11 +365,13 @@
       </section>
 
       <section title="Medium Earth Orbit (MEO)">
-        <t></t>
+	<t>XXX  The authors solicite feedback and experience from users and
+	operators of satellite systems in MEO orbits. XXX</t>
       </section>
 
       <section title="Low Earth Orbit (LEO)">
-        <t></t>
+	<t>XXX  The authors solicite feedback and experience from users and
+	operators of satellite systems in LEO orbits. XXX</t>
       </section>
     </section>
 
@@ -389,7 +398,7 @@
         <t>High BDP networks commonly break the TCP end-to-end paradigm to
         adapt the transport protocol. Splitting a TCP connection allows
         adaptation for a specific use-case and to address the issues discussed
-        in section XXX . Satellite communications commonly deploy Performance
+        in Section 2. Satellite communications commonly deploy Performance
         Enhancement Proxy (PEP) for compression, caching and TCP acceleration
         services <xref target="RFC3135"> </xref> . Their deployment can result
         in significant performance improvement (e.g., a 50% page load time
@@ -432,12 +441,12 @@
 
     <section title="Transport Protocol Mechanisms">
       <t>This section outlines transport protocol mechanisms that may be
-      necessary in satellite or hybrid satellite/terrestrial networks to
-      better utilize the available capacity of the link. These mechanisms may
-      also be needed to fully utilize fast terrestrial channels. Furthermore,
-      these mechanisms do not fundamentally hurt performance in a shared
-      terrestrial network. Each of the following sections outlines one
-      mechanism and why that mechanism may be needed.</t>
+      necessary to tune or optimize in satellite or hybrid
+      satellite/terrestrial networks to better utilize the available capacity
+      of the link. These mechanisms may also be needed to fully utilize fast
+      terrestrial channels. Furthermore, these mechanisms do not fundamentally
+      hurt performance in a shared terrestrial network. Each of the following
+      sections outlines one mechanism and why that mechanism may be needed.</t>
 
       <t><list style="symbols">
           <t>Transport initialization: the 3-way handshake takes a longer time
@@ -464,14 +473,17 @@
         </list></t>
 
       <section title="Getting up to speed">
-        <t>QUIC has an advantage that the TLS and TCP negotiations can be
-        completed during the transport connection handshake. This can reduce
-        the time to transmit the first data. Results of <xref
-        target="IJSCN19"> </xref> illustrate that it can still take many RTTs
-        for a CC to increase the sending rate to fill the bottleneck capacity.
-        The delay in getting up to speed can dominate performance for a path
-        with a large RTT, and requires the congestion and flow controls to
-        accommodate the impact of path delay.</t>
+        <t>
+	Many transport protocols now deploy 0-RTT mechanisms to reduce the
+	number of RTTs required to establish a connection.  QUIC has an
+	advantage that the TLS and TCP negotiations can be completed during the
+	transport connection handshake. This can reduce the time to transmit
+	the first data. Results of <xref target="IJSCN19"> </xref> illustrate
+	that it can still take many RTTs for a CC to increase the sending rate
+	to fill the bottleneck capacity.  The delay in getting up to speed can
+	dominate performance for a path with a large RTT, and requires the
+	congestion and flow controls to accommodate the impact of path
+	delay.</t>
 
         <t>One relevant solution is tuning of the initial window described in
         <xref target="I-D.irtf-iccrg-sallantin-initial-spreading"> </xref> ,
@@ -502,7 +514,7 @@
         Internet via SATCOM terminal.</t>
 
         <t>End-to-end packet Forward Error Correction offers an alternative to
-        retransmission with different tradeoffs in terms of utilised capacity
+        retransmission with different trade offs in terms of utilised capacity
         and repair capability.</t>
 
         <t>Network coding as proposed in <xref
@@ -524,7 +536,29 @@
       </section>
 
       <section title="Flow Control">
-        <t>Flow control timeliness; size of window; auto-scaling</t>
+        <t>XXX Flow control timeliness; size of window; auto-scaling XXX</t>
+
+	<t>Flow Control mechanisms allow the receiver to control the amount of
+	data a send can have in flight at any time. Flow Control allows the
+	receiver to allocate the smallest buffer sizes possible improving
+	memory usage on receipt.
+	</t>
+
+	<t>The sizing of initial receive buffers requires a balance between
+	keeping receive memory allocation small while allowing the send window
+	to grow quickly to help ensure high utilization. The size of receive
+	windows and their growth can govern the performance of the protocol if
+	updates are not timely. Many TCP implementations deploy Auto-scaling
+	mechanisms to increase the size of the largest receive window over
+	time. If these increases are not timely then sender traffic can stall
+	while waiting to be notified of an increase in receive window size.
+	</t>
+
+	<t>Multi-streaming Protocols such as QUIC implement Flow Control using
+	credit based mechanisms which allow the receiver side to perform
+	prioritisation over which stream is able to send and when. Credit based
+	systems where flow credit allocations are not timely can stall sending
+	when credit is exhausted</t>
       </section>
 
       <section title="ACK Traffic Reduction">
@@ -565,7 +599,7 @@
       using an encrypted transport service over a path that employs encryption
       at the IP layer. This includes endpoints that utilise IPsec at the
       network layer, or use VPN technology over a satellite network segment.
-      These uses are unable to benefit from enhancement within the satellite
+      Users are unable to benefit from enhancement within the satellite
       network segment, and often the user is unaware of the presence of the
       satellite link on their path, except through observing the impact it has
       on the performance they experience.</t>
@@ -589,24 +623,251 @@
     </section>
 
     <section anchor="sec:acknowledgments" title="Acknowledgments">
-      <t>The authors would like to thank the authors of RFC2488 and the
-      members of the XXX working group for creating the original version of
-      this document.</t>
+      <t>The authors would like to thank Mark Allman, Daniel R. Glover and Luis
+      A. Sanchez the authors of RFC2488 from which the format and descriptions
+      of satellite systems in this document have been inspired.</t>
 
       <t>The authors would like to thank Christian Huitema, Igor Lubashev,
       Alexandre Ferrieux, Francois Michel, Emmanuel Lochin and the
       participants of the IETF106 side-meeting on QUIC for high BDP for their
-      useful feedbacks.</t>
+      useful feedback.</t>
     </section>
 
     <section anchor="sec:ecurity" title="Security Considerations">
-      <t>XXX TODO XXX Security considerations are really required.</t>
+      <t>XXX XXX</t>
 
       <t>This document does not propose changes to the security functions
       provided by the QUIC protocol. QUIC uses TLS encryption to protect the
       transport header and its payload. Security is considered in the
       "Security Considerations" of cited IETF documents.</t>
     </section>
+
+  </middle>
+
+  <!--  *****BACK MATTER ***** -->
+
+  <back>
+    <!-- References split into informative and normative -->
+
+    <!-- There are 2 ways to insert reference entries from the citation libraries:
+	1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
+	2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
+	(for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
+	Both are cited textually in the same manner: by using xref elements.
+	If you use the PI option, xml2rfc will, by default, try to find included files in the same
+	directory as the including file. You can also define the XML_LIBRARY environment variable
+	with a value containing a set of directories to search.  These can be either in the local
+	filing system or remote ones accessed by http (http://domain/dir/... ).-->
+
+    <!-- <references title="Normative References">
+		&RFC2119;
+	</references> -->
+
+    <references title="Informative References">
+      <?rfc include="reference.RFC.2488.xml"?>
+
+      <?rfc include="reference.RFC.3135.xml"?>
+
+      <?rfc include="reference.RFC.3449.xml"?>
+
+      <!-- <?rfc include="reference.RFC.6349.xml"?> -->
+
+      <!-- <?rfc include="reference.RFC.6534.xml"?> -->
+
+      <?rfc include="reference.RFC.6928.xml"?>
+
+      <!-- <?rfc include="reference.RFC.7928.xml"?> -->
+
+      <!-- <?rfc include="reference.RFC.8446.xml"?> -->
+
+      <?rfc include="reference.I-D.swett-nwcrg-coding-for-quic.xml"?>
+
+      <?rfc include="reference.I-D.roca-nwcrg-rlc-fec-scheme-for-quic.xml"?>
+
+      <?rfc include="reference.I-D.schinazi-masque.xml"?>
+
+      <?rfc include="reference.I-D.ferrieux-hamchaoui-quic-lossbits.xml"?>
+
+      <!-- <?rfc include="reference.I-D.ietf-quic-tls.xml"?> -->
+
+      <!-- <?rfc include="reference.I-D.ietf-quic-transport.xml"?> -->
+
+      <?rfc include="reference.I-D.ietf-quic-recovery.xml"?>
+
+      <!-- <?rfc include="reference.I-D.ietf-tls-ticketrequests.xml"?> -->
+
+      <?rfc include="reference.I-D.irtf-iccrg-sallantin-initial-spreading.xml"?>
+
+      <reference anchor="Sta94">
+      	<front>
+		<title>Data and Computer Communications.  MacMillian, 4th edition, 1994.</title>
+		<author initials="W" surname="Stallings"></author>
+	</front>
+      </reference>
+
+      <reference anchor="Mar78">
+      	<front>
+		<title>Communications Satellite Systems.  Prentice Hall, 1978.</title>
+		<author initials="J" surname="Martin"></author>
+	</front>
+      </reference>
+
+      <reference anchor="Stu95">
+      	<front>
+		<title>Architecture of the TELEDESIC Satellite System. In Proceedings of the International Mobile Satellite Conference, 1995</title>
+		<author initials="M.A." surname="Sturza"></author>
+	</front>
+      </reference>
+
+      <reference anchor="Mon98">
+      	<front>
+		<title>TELEDESIC: Enabling The Global Community Interaccess. In Proc. of the International Wireless Symposium, May 1998</title>
+		<author initials="M.J." surname="Montpetit"></author>
+	</front>
+      </reference>
+
+      <reference anchor="Jac88">
+      	<front>
+		<title>Congestion Avoidance and Control.  In ACM SIGCOMM, 1988</title>
+		<author initials="V" surname="Jacobson"></author>
+	</front>
+      </reference>
+
+      <reference anchor="FF98">
+      	<front>
+		<title>Promoting the Use of End-to-End Congestion Control in the Internet.  IEEE Transactions on Networking</title>
+		<author initials="S" surname="Floyd"></author>
+		<author initials="K" surname="Fall"></author>
+	</front>
+      </reference>
+
+      <reference anchor="PANRG105">
+        <front>
+          <title>QUIC Over In-sequence Paths with Different
+          Characteristics</title>
+
+          <author initials="N" surname="Kuhn"></author>
+
+          <author initials="E" surname="Stephan"></author>
+
+          <author initials="J" surname="Border"></author>
+
+          <author initials="G" surname="Fairhurst"></author>
+
+          <date year="2019" />
+        </front>
+
+        <seriesInfo name="IRTF PANRG" value="105" />
+      </reference>
+
+      <reference anchor="ICCRG100">
+        <front>
+          <title>MPTCP and BBR performance over Internet satellite
+          paths</title>
+
+          <author initials="N" surname="Kuhn"></author>
+
+          <date year="2017" />
+        </front>
+
+        <seriesInfo name="IETF ICCRG" value="100" />
+      </reference>
+
+      <reference anchor="IJSCN17">
+        <front>
+          <title>Software-defined satellite cloud RAN</title>
+
+          <author initials="T" surname="Ahmed"></author>
+
+          <author initials="E" surname="Dubois"></author>
+
+          <author initials="JB" surname="Dupe"></author>
+
+          <author initials="R" surname="Ferrus"></author>
+
+          <author initials="P" surname="Gelard"></author>
+
+          <author initials="N" surname="Kuhn"></author>
+
+          <date year="2017" />
+        </front>
+
+        <seriesInfo name="International Journal of Satellite Communications and Networking"
+                    value="" />
+      </reference>
+
+      <reference anchor="IJSCN19">
+        <front>
+          <title>Google QUIC performance over a public SATCOM access</title>
+
+          <author initials="L" surname="Thomas"></author>
+
+          <author initials="E" surname="Dubois"></author>
+
+          <author initials="N" surname="Kuhn"></author>
+
+          <author initials="E" surname="Lochin"></author>
+
+          <date year="2019" />
+        </front>
+
+        <seriesInfo name="International Journal of Satellite Communications and Networking"
+                    value="" />
+      </reference>
+
+      <reference anchor="CONEXT15">
+        <front>
+          <title>Halfback: Running Short Flows Quickly and Safely</title>
+
+          <author initials="Q" surname="Li"></author>
+
+          <author initials="M" surname="Dong"></author>
+
+          <author initials="P B" surname="Godfrey"></author>
+
+          <date year="2015" />
+        </front>
+
+        <seriesInfo name="ACM CoNEXT" value="" />
+      </reference>
+
+      <reference anchor="NCT13">
+        <front>
+          <title>A new survey on improving TCP performances over geostationary
+          satellite link</title>
+
+          <author initials="A" surname="Pirovano"></author>
+
+          <author initials="F" surname="Garcia"></author>
+
+          <date year="2013" />
+        </front>
+
+        <seriesInfo name="Network and Communication Technologies" value="" />
+      </reference>
+
+      <reference anchor="ICC16">
+        <front>
+          <title>Reducing web latency through TCP IW: Be smart</title>
+
+          <author initials="R" surname="Sallantin"></author>
+
+          <author initials="C" surname="Baudoin"></author>
+
+          <author initials="E" surname="Chaput"></author>
+
+          <author initials="F" surname="Arnal"></author>
+
+          <author initials="E" surname="Dubois"></author>
+
+          <author initials="A-L" surname="Beylot"></author>
+
+          <date year="2016" />
+        </front>
+
+        <seriesInfo name="IEEE ICC" value="" />
+      </reference>
+    </references>
 
     <section title="Example Network Profiles">
       <t>This proposes sampler profiles and a set of regression tests to
@@ -835,188 +1096,17 @@
         </section>
       </section>
     </section>
-  </middle>
 
-  <!--  *****BACK MATTER ***** -->
+    <section title="Revision Notes">
+    <t>Note to RFC-Editor: please remove this entire section prior to publication.</t>
 
-  <back>
-    <!-- References split into informative and normative -->
+    <t>Individual draft -00:<list style="symbols">
 
-    <!-- There are 2 ways to insert reference entries from the citation libraries:
-	1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
-	2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
-	(for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
-	Both are cited textually in the same manner: by using xref elements.
-	If you use the PI option, xml2rfc will, by default, try to find included files in the same
-	directory as the including file. You can also define the XML_LIBRARY environment variable
-	with a value containing a set of directories to search.  These can be either in the local
-	filing system or remote ones accessed by http (http://domain/dir/... ).-->
+	<t>Comments and corrections are welcome directly to the authors or via
+	the https://github.com/uoaerg/draft-jones-transport-for-satellite
+	github repo in the form of pull requests and issues.</t>
+    </list></t>
 
-    <!-- <references title="Normative References">
-		&RFC2119;
-	</references> -->
-
-    <references title="Informative References">
-      <?rfc include="reference.RFC.2488.xml"?>
-
-      <?rfc include="reference.RFC.3135.xml"?>
-
-      <?rfc include="reference.RFC.3449.xml"?>
-
-      <!-- <?rfc include="reference.RFC.6349.xml"?> -->
-
-      <!-- <?rfc include="reference.RFC.6534.xml"?> -->
-
-      <?rfc include="reference.RFC.6928.xml"?>
-
-      <!-- <?rfc include="reference.RFC.7928.xml"?> -->
-
-      <!-- <?rfc include="reference.RFC.8446.xml"?> -->
-
-      <?rfc include="reference.I-D.swett-nwcrg-coding-for-quic.xml"?>
-
-      <?rfc include="reference.I-D.roca-nwcrg-rlc-fec-scheme-for-quic.xml"?>
-
-      <?rfc include="reference.I-D.schinazi-masque.xml"?>
-
-      <?rfc include="reference.I-D.ferrieux-hamchaoui-quic-lossbits.xml"?>
-
-      <!-- <?rfc include="reference.I-D.ietf-quic-tls.xml"?> -->
-
-      <!-- <?rfc include="reference.I-D.ietf-quic-transport.xml"?> -->
-
-      <?rfc include="reference.I-D.ietf-quic-recovery.xml"?>
-
-      <!-- <?rfc include="reference.I-D.ietf-tls-ticketrequests.xml"?> -->
-
-      <?rfc include="reference.I-D.irtf-iccrg-sallantin-initial-spreading.xml"?>
-
-      <reference anchor="PANRG105">
-        <front>
-          <title>QUIC Over In-sequence Paths with Different
-          Characteristics</title>
-
-          <author initials="N" surname="Kuhn"></author>
-
-          <author initials="E" surname="Stephan"></author>
-
-          <author initials="J" surname="Border"></author>
-
-          <author initials="G" surname="Fairhurst"></author>
-
-          <date year="2019" />
-        </front>
-
-        <seriesInfo name="IRTF PANRG" value="105" />
-      </reference>
-
-      <reference anchor="ICCRG100">
-        <front>
-          <title>MPTCP and BBR performance over Internet satellite
-          paths</title>
-
-          <author initials="N" surname="Kuhn"></author>
-
-          <date year="2017" />
-        </front>
-
-        <seriesInfo name="IETF ICCRG" value="100" />
-      </reference>
-
-      <reference anchor="IJSCN17">
-        <front>
-          <title>Software-defined satellite cloud RAN</title>
-
-          <author initials="T" surname="Ahmed"></author>
-
-          <author initials="E" surname="Dubois"></author>
-
-          <author initials="JB" surname="Dupe"></author>
-
-          <author initials="R" surname="Ferrus"></author>
-
-          <author initials="P" surname="Gelard"></author>
-
-          <author initials="N" surname="Kuhn"></author>
-
-          <date year="2017" />
-        </front>
-
-        <seriesInfo name="International Journal of Satellite Communications and Networking"
-                    value="" />
-      </reference>
-
-      <reference anchor="IJSCN19">
-        <front>
-          <title>Google QUIC performance over a public SATCOM access</title>
-
-          <author initials="L" surname="Thomas"></author>
-
-          <author initials="E" surname="Dubois"></author>
-
-          <author initials="N" surname="Kuhn"></author>
-
-          <author initials="E" surname="Lochin"></author>
-
-          <date year="2019" />
-        </front>
-
-        <seriesInfo name="International Journal of Satellite Communications and Networking"
-                    value="" />
-      </reference>
-
-      <reference anchor="CONEXT15">
-        <front>
-          <title>Halfback: Running Short Flows Quickly and Safely</title>
-
-          <author initials="Q" surname="Li"></author>
-
-          <author initials="M" surname="Dong"></author>
-
-          <author initials="P B" surname="Godfrey"></author>
-
-          <date year="2015" />
-        </front>
-
-        <seriesInfo name="ACM CoNEXT" value="" />
-      </reference>
-
-      <reference anchor="NCT13">
-        <front>
-          <title>A new survey on improving TCP performances over geostationary
-          satellite link</title>
-
-          <author initials="A" surname="Pirovano"></author>
-
-          <author initials="F" surname="Garcia"></author>
-
-          <date year="2013" />
-        </front>
-
-        <seriesInfo name="Network and Communication Technologies" value="" />
-      </reference>
-
-      <reference anchor="ICC16">
-        <front>
-          <title>Reducing web latency through TCP IW: Be smart</title>
-
-          <author initials="R" surname="Sallantin"></author>
-
-          <author initials="C" surname="Baudoin"></author>
-
-          <author initials="E" surname="Chaput"></author>
-
-          <author initials="F" surname="Arnal"></author>
-
-          <author initials="E" surname="Dubois"></author>
-
-          <author initials="A-L" surname="Beylot"></author>
-
-          <date year="2016" />
-        </front>
-
-        <seriesInfo name="IEEE ICC" value="" />
-      </reference>
-    </references>
+    </section>
   </back>
 </rfc>
