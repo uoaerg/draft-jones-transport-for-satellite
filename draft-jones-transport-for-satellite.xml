@@ -124,7 +124,7 @@
       of various types of IP networks, and provision to mobile environments
       (maritime, aircraft, etc.).</t>
 
-      <t>In most scenarios, the satellite IP network segment only forms only
+      <t>In most scenarios, the satellite IP network segment forms only
       one part of the end-to-end path used by an Internet transport protocol.
       This means that user traffic can experience a path that includes a
       satellite network combined with a wide variety of other network
@@ -156,15 +156,15 @@
       <t>Although mechanisms are designed for use across Internet paths, not
       all designs are performant when used over the wide diversity of path
       characteristics that can occur. This document therefore considers the
-      implications of Internjet paths that include a satellite system. The
+      implications of Internet paths that include a satellite system. The
       analysis and conclusions might also apply to other network systems that
       also result in characteristics that differ from typical Internet
       paths.</t>
 
       <t>RFC2488 specifies an Internet Best Current Practices for the Internet
-      Community, relating to use of the standdards-track Transmission Control
+      Community, relating to use of the standards-track Transmission Control
       Protocol (TCP) mechanisms over satellite channels <xref
-      target="RFC2488"></xref>. A separate RFC,<xref target="RFC2488"></xref>,
+      target="RFC2488"></xref>. A separate RFC,<xref target="RFC2760"></xref>,
       identified research issues and proposed mitigations for satellite
       paths.</t>
 
@@ -182,7 +182,7 @@
       therefore use other methods.</t>
 
       <t>XXX Note from the current authors: This document currently focuses on
-      Geosynchronous Earth Orbit (GEO) satellite systems, the authors solicite
+      Geosynchronous Earth Orbit (GEO) satellite systems, the authors solicit
       feedback and experience from users and operators of satellite systems
       using other orbits. XXX</t>
 
@@ -199,18 +199,18 @@
           deploying transport protocols and highlights key changes since the
           publication of <xref target="RFC2488"></xref>.</t>
 
-          <t><xref target="s-below-transport"></xref>outlines exististing
+          <t><xref target="s-below-transport"></xref>outlines existing
           deployed mitigations that operate below the transport protocol
           layer. This offers advice to designers and operators of satellite
           networks.</t>
 
           <t><xref target="s-transport"></xref> outlines transport protocol
           mechanisms defined that may benefit with satellite networks specific
-          tuning and optimization. In particular it docusses on end-to-end
+          tuning and optimization. In particular it discusses on end-to-end
           considerations, and the mechanisms that impact performance of
           encrypted transports.</t>
 
-          <t>Finally, Section 6 provides a summary of the features recomended
+          <t>Finally, Section 6 provides a summary of the features recommended
           for modern transport protocols.</t>
         </list></t>
     </section>
@@ -234,13 +234,13 @@
           the distance traveled is 2 x 41,756 km for a total propagation delay
           of 279.0 ms <xref target="Mar78"></xref>. These delays are for one
           ground station-to-satellite-to-ground station route (or "hop").
-          Therefore, the propagation delay for a packe and the corresponding
+          Therefore, the propagation delay for a pack and the corresponding
           reply (one round-trip time or RTT) could be at least 558 ms. The RTT
           is not based solely due satellite propagation time and will be
           increased by other factors, such as the serialisation time,
           including any FEC encoding/ARQ delay and propagation time of other
-          links alongs the network path and the queueing delay in network
-          equipment. The delay is increasaewd when multiple hops are used
+          links along the network path and the queueing delay in network
+          equipment. The delay is increased when multiple hops are used
           (i.e. communications is relayed via a gateway) or if inter-satellite
           links are used. As satellites become more complex and include
           on-board processing of signals, additional delay can be added.</t>
@@ -268,7 +268,7 @@
             <t>A large propagation delay of at least 250ms one-way delay;</t>
 
             <t>Employ radio resource management (often using techniques
-            similar to cellular mobile or DOCSIS cable networks, but differing
+            similar to cellular mobile or DOCSIS cable networks, but differ
             to accommodate the satellite propagation delay);</t>
 
             <t>Links can be highly asymmetric (in terms of capacity, one-way
@@ -289,35 +289,34 @@
         <t>MEO systems such as O3B combines advantages and drawbacks from both
         LEO and GEO systems.</t>
 
-        <t>In terms of advantages, we can notice a large coverage and a
-        limited amount of satellites required ro provide a broad service.
-        Morever, the usage of powerfull satellites enables to provide high
-        datarates.</t>
+	<t>MEO systems can have a large coverage and with limited number of
+	satellites required providing a broad service.  The usage of powerful
+	satellites enables to provide high data rates.</t>
 
-        <t>In terms of drawbacks, from a transport protocol perspective, the
-        BDP can be very high due to the altitude of such constellations (8 063
-        km for O3B) and there may be delay variations when the sallite changes
-        (every 45 minutes with O3B). The latter can be dealt with by the means
-        of double antennas terminals.</t>
+	<t>MEO systems have the drawback, from a transport protocol
+	perspective, that the BDP can be very high due to the altitude of such
+	constellations (8 063 km for O3B) and there may be delay variations
+	when the satellite changes (every 45 minutes with O3B). The latter can
+	be dealt with by the means of double antennas terminals.</t>
 
-        <t>XXX The authors solicite feedback and experience from users and
+        <t>XXX The authors solicit feedback and experience from users and
         operators of satellite systems in MEO orbits. XXX</t>
       </section>
 
       <section title="Low Earth Orbit (LEO)">
-        <t>There is an important variability of LEO systems. Depending on the
-        locations of the gateways on the ground, routing within the
-        constellation may be necessary to bring to packets down to the ground.
-        Depending on the routes currently available for an end user, important
-        jitter may occur (from 40ms to 140ms with Iridium constellation). This
-        may lead to out-of-order delivery of packets.</t>
+	<t>There is an important variability of LEO systems. Depending on the
+	locations of the gateways on the ground, routing within the
+	constellation may be necessary to bring to packets down to the ground.
+	Depending on the routes currently available for an end user, high
+	levels of jitter may occur (from 40ms to 140ms with Iridium
+	constellation). This may lead to out-of-order delivery of packets.</t>
 
-        <t>XXX The authors solicite feedback and experience from users and
+        <t>XXX The authors solicit feedback and experience from users and
         operators of satellite systems in LEO orbits. XXX</t>
       </section>
 
       <section title="Hybrid Network Paths">
-        <t>XXX The authors solicite feedback and experience from users and
+        <t>XXX The authors solicit feedback and experience from users and
         operators of satellite systems in hybrid network scenarios. XXX</t>
       </section>
     </section>
@@ -359,7 +358,7 @@
           congestion in the network.</t>
 
           <t>Bandwidth: The radio spectrum is a limited natural resource,
-          hence there is a restricted amount of bandwidth available to
+          there is a restricted amount of bandwidth available to
           satellite systems which is typically controlled by licenses. This
           scarcity makes it difficult to trade bandwidth to solve other design
           problems. Satellite-based radio repeaters are known as transponders.
@@ -422,8 +421,8 @@
         additional delay can impact transport mechanisms.</t>
 
         <section title="Larger Bandwidth Delay Product">
-          <t>Although capacity is often less than in many terrestial systems,
-          the bandwidth delay product (BDP) defines the amount of data thatr a
+          <t>Although capacity is often less than in many terrestrial systems,
+          the bandwidth delay product (BDP) defines the amount of data that a
           protocol is permitted to have "in flight" (data transmitted, but not
           yet acknowledged) at any one time to fully utilize the available
           capacity.</t>
@@ -463,7 +462,7 @@
       <section title="Intermittent connectivity">
         <t>In some non-GEO satellite orbit configurations, from time to time
         Internet connections need to be transferred from one satellite to
-        another or from one ground station to another. This handoff might
+        another or from one ground station to another. This hand-off might
         cause excessive packet loss or reordering if not properly
         performed.</t>
       </section>
@@ -475,7 +474,7 @@
       than with the transport endpoints.</t>
 
       <section title="Link-Level Forward Error Correction and ARQ">
-        <t>XXX Common, but includes adpative ModCod and sometimes ARQ - which
+        <t>XXX Common, but includes adaptive ModCod and sometimes ARQ - which
         can reduce the loss at the expense of decreasing the available
         capacity. XXX</t>
       </section>
@@ -487,13 +486,13 @@
 
       <section title="Quality of Service (QoS)">
         <t>Links were packets are sent over radio channels exhibit various
-        tradeoffs in the way the signal is sent on the communictaions channel.
-        These tradeoffs are not necessarily the same for all packets, and
+        trade-offs in the way the signal is sent on the communications channel.
+        These trade-offs are not necessarily the same for all packets, and
         network traffic flows can be optimised by mapping these onto different
         types of lower layer treatment (packet queues, resource management
-        requests, resource usage, and adpation to the channel using FEC, ARQ,
+        requests, resource usage, and adaption to the channel using FEC, ARQ,
         etc). Many systems differentiate classes of traffic to mange these QoS
-        tradeoffs.</t>
+        trade-offs.</t>
       </section>
 
       <section title="Split-TCP PEP">
@@ -570,7 +569,7 @@
           to send data (several transport protocol exchanges may be needed,
           such as TLS);</t>
 
-          <t>Size of congetsion window required: to fully exploit the
+          <t>Size of congestion window required: to fully exploit the
           bottleneck capacity, a high BDP requires a larger number of
           in-flight packets;</t>
 
@@ -588,7 +587,7 @@
           specific rate;</t>
 
           <t>Asymmetry : when the links are asymmetric, for various reasons,
-          the the return path may modify the rate and/timing of transport
+          the return path may modify the rate and/timing of transport
           acknowledgment traffic, potentially changing behaviour (e.g.,
           limiting the forward sending rate).</t>
         </list></t>
@@ -675,7 +674,7 @@
         <t>Many TCP implementations deploy Auto-scaling mechanisms to increase
         the size of the largest receive window over time. If these increases
         are not timely then sender traffic can stall while waiting to be
-        notified of an increase in receive window size. XX QUIC? XX</t>
+        notified of an increase in receive window size. XXX QUIC? XXX</t>
 
         <t>Multi-streaming Protocols such as QUIC implement Flow Control using
         credit-based mechanisms that allow the receiver to prioritise which
@@ -685,7 +684,7 @@
       </section>
 
       <section title="ACK Traffic Reduction">
-        <t>When the links are asymmetric, for various reasons, the the return
+        <t>When the links are asymmetric, for various reasons, the return
         path may modify the rate and/timing of transport acknowledgment
         traffic, potentially changing behaviour (e.g., limiting the forward
         sending rate).</t>
@@ -718,7 +717,7 @@
       </section>
 
       <section title="Packet Level Forward Error Correction">
-        <t>XXX Packet level FEC can mitigate loss/re-ordering, with a tradeoff
+        <t>XXX Packet level FEC can mitigate loss/re-ordering, with a trade-off
         in capacity. XXX</t>
       </section>
 
@@ -747,7 +746,7 @@
         <section title="Reliability"></section>
 
         <section title="ACK Reduction">
-          <t>Mechansims are being proposed in TCPM for TCP [REF].</t>
+          <t>Mechanisms are being proposed in TCPM for TCP [REF].</t>
         </section>
       </section>
 
@@ -833,8 +832,8 @@
     <section anchor="sec:acknowledgments" title="Acknowledgments">
       <t>The authors would like to thank Mark Allman, Daniel R. Glover and
       Luis A. Sanchez the authors of RFC2488 from which the format and
-      descriptions of satellite systems in this document have been
-      inspired.</t>
+      descriptions of satellite systems in this document have taken
+      inspiration.</t>
 
       <t>The authors would like to thank Christian Huitema, Igor Lubashev,
       Alexandre Ferrieux, Francois Michel, Emmanuel Lochin and the
@@ -877,6 +876,8 @@
       <?rfc include="reference.I-D.kuhn-quic-0rtt-bdp.xml"?>
 
       <?rfc include="reference.RFC.2488.xml"?>
+
+      <?rfc include="reference.RFC.2760.xml"?>
 
       <?rfc include="reference.RFC.3135.xml"?>
 
@@ -1131,7 +1132,7 @@
           paths, the test should report the upload and download time of 2 MB,
           10 MB and 100 MB.</t>
 
-          <t>Initial thoughts of the performance obectives for QUIC are the
+          <t>Initial thoughts of the performance objectives for QUIC are the
           following:<list style="symbols">
               <t>3 s for downloading 2 MB</t>
 
