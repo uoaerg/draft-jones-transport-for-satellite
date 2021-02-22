@@ -661,6 +661,11 @@
         Mechanisms have been proposed in <xref
         target="I-D.ferrieux-hamchaoui-quic-lossbits"> </xref> , to identify
         congestion losses in the ground segment.</t>
+
+        <section title="Packet Level Forward Error Correction">
+	  <t>XXX Packet level FEC can mitigate loss/re-ordering, with a
+	  trade-off in capacity. XXX</t>
+        </section>
       </section>
 
       <section title="Flow Control">
@@ -718,11 +723,6 @@
         acknowledgments less frequently. A rate of one ACK for every RTT/4 can
         significantly reduce this traffic. The QUIC transport specification
         may evolve to allow the ACK Ratio to be adjusted.</t>
-      </section>
-
-      <section title="Packet Level Forward Error Correction">
-        <t>XXX Packet level FEC can mitigate loss/re-ordering, with a trade-off
-        in capacity. XXX</t>
       </section>
 
       <section title="Multi-Path">
