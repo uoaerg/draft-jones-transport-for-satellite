@@ -136,7 +136,7 @@
 
       <t>Satellite path characteristics have an effect on the operation of
       transport protocols, such as TCP, SCTP or QUIC. Transport Protocol
-      performance can be effected by the magnitude and variability of the
+      performance can be affected by the magnitude and variability of the
       network delay. When transport protocols perform poorly the link
       utilization can be low. Techniques and recommendations have been made
       that can improve the performance of transport protocols when the path
@@ -199,7 +199,7 @@
           deploying transport protocols and highlights key changes since the
           publication of <xref target="RFC2488"></xref>.</t>
 
-          <t><xref target="s-below-transport"></xref>outlines existing
+          <t><xref target="s-below-transport"></xref> outlines existing
           deployed mitigations that operate below the transport protocol
           layer. This offers advice to designers and operators of satellite
           networks.</t>
@@ -234,9 +234,9 @@
           the distance traveled is 2 x 41,756 km for a total propagation delay
           of 279.0 ms <xref target="Mar78"></xref>. These delays are for one
           ground station-to-satellite-to-ground station route (or "hop").
-          Therefore, the propagation delay for a pack and the corresponding
+          Therefore, the propagation delay for a packet and the corresponding
           reply (one round-trip time or RTT) could be at least 558 ms. The RTT
-          is not based solely due satellite propagation time and will be
+          is not based solely due to satellite propagation time and will be
           increased by other factors, such as the serialisation time,
           including any FEC encoding/ARQ delay and propagation time of other
           links along the network path and the queueing delay in network
@@ -267,7 +267,7 @@
         their path characteristics: <list style="symbols">
             <t>A large propagation delay of at least 250ms one-way delay;</t>
 
-            <t>Employ radio resource management (often using techniques
+            <t>Use of radio resource management (often using techniques
             similar to cellular mobile or DOCSIS cable networks, but differ
             to accommodate the satellite propagation delay);</t>
 
@@ -285,34 +285,34 @@
         conditions.</t>
       </section>
 
+      <section title="Low Earth Orbit (LEO)">
+	<t>There is an important variability of LEO systems. Depending on the
+	locations of the gateways on the ground, routing within the
+	constellation may be necessary to bring to packets down to the ground.
+	Depending on the routes currently available for an end user, high
+	levels of jitter may occur (from 40ms to 140ms with the Iridium
+	constellation). This may lead to out-of-order delivery of packets.</t>
+
+        <t>XXX The authors solicit feedback and experience from users and
+        operators of satellite systems in LEO orbits. XXX</t>
+      </section>
+
       <section title="Medium Earth Orbit (MEO)">
         <t>MEO systems such as O3B combines advantages and drawbacks from both
         LEO and GEO systems.</t>
 
 	<t>MEO systems can have a large coverage and with limited number of
 	satellites required providing a broad service.  The usage of powerful
-	satellites enables to provide high data rates.</t>
+	satellites enables provision of high data rates.</t>
 
 	<t>MEO systems have the drawback, from a transport protocol
 	perspective, that the BDP can be very high due to the altitude of such
 	constellations (8 063 km for O3B) and there may be delay variations
 	when the satellite changes (every 45 minutes with O3B). The latter can
-	be dealt with by the means of double antennas terminals.</t>
+	be dealt with by means of double antennas terminals.</t>
 
         <t>XXX The authors solicit feedback and experience from users and
         operators of satellite systems in MEO orbits. XXX</t>
-      </section>
-
-      <section title="Low Earth Orbit (LEO)">
-	<t>There is an important variability of LEO systems. Depending on the
-	locations of the gateways on the ground, routing within the
-	constellation may be necessary to bring to packets down to the ground.
-	Depending on the routes currently available for an end user, high
-	levels of jitter may occur (from 40ms to 140ms with Iridium
-	constellation). This may lead to out-of-order delivery of packets.</t>
-
-        <t>XXX The authors solicit feedback and experience from users and
-        operators of satellite systems in LEO orbits. XXX</t>
       </section>
 
       <section title="Hybrid Network Paths">
@@ -331,31 +331,30 @@
       described below:</t>
 
       <t><list style="symbols">
-          <t>Packet Loss: The strength of any radio signal falls in proportion
-          to the square of the distance traveled. For a satellite link the
-          square of the distance traveled. For a satellite link the distance
-          is large and so the signal becomes weak before reaching its
-          destination. This results in a low signal-to-noise ratio. Some
-          frequencies are particularly susceptible to atmospheric effects such
-          as rain attenuation. For mobile applications, satellite channels are
-          especially susceptible to multi-path distortion and shadowing (e.g.,
-          blockage by buildings). Typical bit error ratios (BER) for a
-          satellite link today are on the order of 1 error per 10 million bits
-          (1 x 10^-7) or less frequent. Advanced error control coding (e.g.,
-          Reed Solomon or LDPC) can be added to existing satellite services
-          and is currently being used by many services. Satellite performance
-          approaching fiber will become more common using advanced error
-          control coding in new systems. However, many legacy satellite
-          systems will continue to exhibit higher physical layer BER than
-          newer satellite systems. TCP uses all packet drops as signals of
-          network congestion and reduces its window size in an attempt to
-          alleviate the congestion. In the absence of knowledge about why a
-          packet was dropped (congestion or corruption), TCP must assume the
-          drop was due to network congestion to avoid congestion collapse
-          <xref target="Jac88"></xref> <xref target="FF98"></xref>. Therefore,
-          packets dropped due to corruption cause TCP to reduce the size of
-          its sliding window, even though these packet drops do not signal
-          congestion in the network.</t>
+	  <t>Packet Loss: The strength of any radio signal falls in proportion
+	  to the square of the distance traveled. For a satellite link the
+	  square of the distance traveled. Is large and so the signal becomes
+	  weak before reaching its destination. This results in a low
+	  signal-to-noise ratio. Some frequencies are particularly susceptible
+	  to atmospheric effects such as rain attenuation. For mobile
+	  applications, satellite channels are especially susceptible to
+	  multi-path distortion and shadowing (e.g., blockage by buildings).
+	  Typical bit error ratios (BER) for a satellite link today are on the
+	  order of 1 error per 10 million bits (1 x 10^-7) or less frequent.
+	  Advanced error control coding (e.g., Reed Solomon or LDPC) can be
+	  added to existing satellite services and is currently being used by
+	  many services. Satellite performance approaching fiber will become
+	  more common using advanced error control coding in new systems.
+	  However, many legacy satellite systems will continue to exhibit
+	  higher physical layer BER than newer satellite systems. TCP uses all
+	  packet drops as signals of network congestion and reduces its window
+	  size in an attempt to alleviate the congestion. In the absence of
+	  knowledge about why a packet was dropped (congestion or corruption),
+	  TCP must assume the drop was due to network congestion to avoid
+	  congestion collapse <xref target="Jac88"></xref> <xref
+	  target="FF98"></xref>. Therefore, packets dropped due to corruption
+	  cause TCP to reduce the size of its sliding window, even though these
+	  packet drops do not signal congestion in the network.</t>
 
           <t>Bandwidth: The radio spectrum is a limited natural resource,
           there is a restricted amount of bandwidth available to
@@ -372,7 +371,12 @@
           Typical carrier frequencies for current, point- to-point,
           commercial, satellite services are 6 GHz (uplink) and 4 GHz
           (downlink), also known as C-band, and 14/12 GHz (Ku band). Services
-          also utilise higher bands, including 30/20 GHz (Ka-band).</t>
+          also utilise higher bands, including 30/20 GHz (Ka-band).
+
+	  XXX  JB: I think we need add Ka-band details.
+	  You cannot get 250 Mbps out of a C-band or Ku-band transponder.
+	  Outbound Ka-band transponders range from 100 to 500 MHz.  Inbound
+	  Ka-band transponders range from 50 to 250 MHz.XXX </t>
 
           <t>Link Design: It is common to consider the satellite network
           segment composed of a forward link and a return link. The two links
@@ -500,7 +504,7 @@
         adapt the transport protocol. Splitting a TCP connection allows
         adaptation for a specific use-case and to address the issues discussed
         in Section 2. Satellite communications commonly deploy Performance
-        Enhancement Proxy (PEP) for compression, caching and TCP acceleration
+        Enhancing Proxy (PEP) for compression, caching and TCP acceleration
         services <xref target="RFC3135"> </xref> . Their deployment can result
         in significant performance improvement (e.g., a 50% page load time
         reduction in a SATCOM use-case <xref target="ICCRG100"> </xref> .</t>
@@ -514,7 +518,7 @@
         parameters to the satellite link (latency, available capacity).</t>
 
         <t>When a proxy is used on each side of the satellite link, the
-        transport protocol can be replace by a protocol other than TCP,
+        transport protocol can be replaced by a protocol other than TCP,
         optimized for the satellite link. This can be tuned using a priori
         information about the satellite system and/or by measuring the
         properties of the network segment that includes the satellite
@@ -586,10 +590,10 @@
           capacity probing), a high RTT will increase the time to reach a
           specific rate;</t>
 
-          <t>Asymmetry : when the links are asymmetric, for various reasons,
-          the return path may modify the rate and/timing of transport
-          acknowledgment traffic, potentially changing behaviour (e.g.,
-          limiting the forward sending rate).</t>
+	  <t>Asymmetry: when the links are asymmetric the return path may
+	  modify the rate and/timing of transport acknowledgment traffic,
+	  potentially changing behaviour (e.g., limiting the forward sending
+	  rate).</t>
         </list></t>
 
       <section title="Getting up to Speed">
@@ -679,7 +683,7 @@
         <t>Multi-streaming Protocols such as QUIC implement Flow Control using
         credit-based mechanisms that allow the receiver to prioritise which
         stream is able to send and when. Credit-based systems, when flow
-        credit allocations are not timely, they can stall sending when credit
+        credit allocations are not timely, can stall sending when credit
         is exhausted.</t>
       </section>
 
@@ -734,7 +738,7 @@
         <section title="Getting Up To Speed">
           <t>One relevant solution is tuning of the initial window described
           in <xref target="I-D.irtf-iccrg-sallantin-initial-spreading">
-          </xref><xref target="RFC6928"></xref>, w hich has been shown to
+          </xref><xref target="RFC6928"></xref>, which has been shown to
           improve performance both for high BDP and more common BDP <xref
           target="CONEXT15"> </xref> <xref target="ICC16"> </xref>. This
           requires sender pacing to avoid generating bursts of packets to the
@@ -795,7 +799,7 @@
         </section>
 
         <section title="Split Congestion Control ">
-          <t>Split the congestion control requires the deployment of
+          <t>Splitting the congestion control requires the deployment of
           application proxies.</t>
         </section>
       </section>
@@ -1101,6 +1105,10 @@
       evaluate transport protocols over SATCOM links and discusses how to
       ensure acceptable protocol performance.</t>
 
+      <t>XXX These test profiles currently focus on the measuring performance and
+      testing for regressions in the QUIC protocol. The authors solicit input
+      to adapt these tests to apply to more transport protocols. XXX</t>
+
       <section title="LEO"></section>
 
       <section title="MEO"></section>
@@ -1251,7 +1259,7 @@
               style="symbols">
               <t>Satellite downlink path: 250 Mbps</t>
 
-              <t>Satellite uplink path: 3 Mbps</t>
+              <t>Satellite uplink path: 6 Mbps</t>
 
               <t>No emulated packet loss</t>
 
@@ -1288,7 +1296,7 @@
               style="symbols">
               <t>Satellite downlink path: 250 Mbps</t>
 
-              <t>Satellite uplink path: 3 Mbps</t>
+              <t>Satellite uplink path: 6 Mbps</t>
 
               <t>Emulated packet loss on both downlink and uplink paths:<list
                   style="symbols">
