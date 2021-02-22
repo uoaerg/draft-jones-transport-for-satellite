@@ -469,7 +469,7 @@
     </section>
 
     <section anchor="s-below-transport"
-             title="Mitigations Below the Transport Layer">
+             title="On-Path Mitigations">
       <t>This section describes mitigations that operate on the path, rather
       than with the transport endpoints.</t>
 
