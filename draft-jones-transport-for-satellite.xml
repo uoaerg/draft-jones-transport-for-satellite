@@ -271,8 +271,9 @@
             similar to cellular mobile or DOCSIS cable networks, but differ
             to accommodate the satellite propagation delay);</t>
 
-            <t>Links can be highly asymmetric (in terms of capacity, one-way
-            delay and in their cost of operation).</t>
+	    <t>Links can be highly asymmetric (in terms of capacity, one-way
+	    delay and in their cost of operation, see <xref
+	    target="referencescenarios"></xref> for example scenarios).</t>
           </list>As an example. GEO systems use the DVB-S2 specifications
         [EN 302 307-1], published by the European Telecommunications Standards
         Institute (ETSI), where the key concept is to ensure both a good usage
@@ -1105,7 +1106,7 @@
       </reference>
     </references>
 
-    <section title="Example Network Profiles">
+    <section anchor="referencescenarios" title="Example Network Profiles">
       <t>This proposes sampler profiles and a set of regression tests to
       evaluate transport protocols over SATCOM links and discusses how to
       ensure acceptable protocol performance.</t>
