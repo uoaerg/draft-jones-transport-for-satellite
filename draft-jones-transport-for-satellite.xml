@@ -274,7 +274,7 @@
             <t>Links can be highly asymmetric (in terms of capacity, one-way
             delay and in their cost of operation).</t>
           </list>As an example. GEO systems use the DVB-S2 specifications
-        [REF], published by the European Telecommunications Standards
+        [EN 302 307-1], published by the European Telecommunications Standards
         Institute (ETSI), where the key concept is to ensure both a good usage
         of the satellite resource and a Quasi Error Free (QEF) link. These
         systems typically monitor the link quality in real-time, with the help
