@@ -533,13 +533,16 @@
 
         <t>One important advantage of a TCP split solution is that it does not
         require any end-to-end modification and is independent of both the
-        client and server sides. This comes with a drawback: TCP splitters are
-        often unable to track end-to-end improvements in protocol mechanisms
-        (e.g., RACK, ECN, TCP Fast Open). The set of methods configured in a
-        split proxy usually continue to be used, until the split solution is
-        finally updated. This can delay/negate the benefit of any end-to-end
-        improvements, contributing to ossification of the transport
-        system.</t>
+        client and server sides. </t>
+
+	<t> Split-TCP comes with a significant drawback: TCP splitters are
+	often unable to track end-to-end improvements in protocol mechanisms
+	(e.g., RACK, ECN, TCP Fast Open) or new protocols that share a wire
+	format with TCP (MPTCP <xref target=RFC6824"></xref>). The set of
+	methods configured in a split proxy usually continue to be used, until
+	the split solution is finally updated. This can delay/negate the
+	benefit of any end-to-end improvements, contributing to ossification of
+	the transport system.</t>
       </section>
 
       <section title="Application Proxies">
