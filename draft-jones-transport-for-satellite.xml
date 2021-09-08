@@ -433,7 +433,7 @@
 
           <t>The delay used in this equation is the path RTT and the bandwidth
           is the capacity of the bottleneck link along the network path.
-          Because the delay in some satellite environments is larger,
+          Because the delay in some satellite environments is higher,
           protocols need to keep a larger number of packets in flight.</t>
 
           <t>This also impacts the size of window/credit needed to avoid flow
