@@ -177,7 +177,7 @@
       the PEP functionality). This has made it difficult for new protocol
       extensions to achieve comparable performance over satellite channels. In
       addition, protocols with strong requirements on authentication and
-      privacy such as QUIC <xref target="I-D.ietf-quic-transport"></xref>
+      privacy such as QUIC <xref target="RFC9000"></xref>
       are not able to be split using a PEP and mitigation, and need to
       therefore use other methods.</t>
 
@@ -538,7 +538,7 @@
 	<t> Split-TCP comes with a significant drawback: TCP splitters are
 	often unable to track end-to-end improvements in protocol mechanisms
 	(e.g., RACK, ECN, TCP Fast Open) or new protocols that share a wire
-	format with TCP (MPTCP <xref target=RFC6824"></xref>). The set of
+	format with TCP (MPTCP <xref target="RFC6824"></xref>). The set of
 	methods configured in a split proxy usually continue to be used, until
 	the split solution is finally updated. This can delay/negate the
 	benefit of any end-to-end improvements, contributing to ossification of
@@ -900,7 +900,11 @@
 
       <!-- <?rfc include="reference.RFC.6534.xml"?> -->
 
+      <?rfc include="reference.RFC.6824.xml"?>
+	    
       <?rfc include="reference.RFC.6928.xml"?>
+	    
+      <?rfc include="reference.RFC.9000.xml"?>
 
       <!-- <?rfc include="reference.RFC.7928.xml"?> -->
 
@@ -916,9 +920,9 @@
 
       <!-- <?rfc include="reference.I-D.ietf-quic-tls.xml"?> -->
 
-      <?rfc include="reference.I-D.ietf-quic-transport.xml"?>
+      <!-- <?rfc include="reference.I-D.ietf-quic-transport.xml"?> -->
 
-      <?rfc include="reference.I-D.ietf-quic-recovery.xml"?>
+      <!-- <?rfc include="reference.I-D.ietf-quic-recovery.xml"?> -->
 
       <!-- <?rfc include="reference.I-D.ietf-tls-ticketrequests.xml"?> -->
 
@@ -926,60 +930,80 @@
 
       <reference anchor="Sta94">
         <front>
-          <title>Data and Computer Communications. MacMillian, 4th edition,
-          1994.</title>
+          <title>Data and Computer Communications</title>
 
-          <author initials="W" surname="Stallings" />
+          <author initials="W" surname="Stallings"></author>
+
+          <date year="1994" />
         </front>
+
+	<seriesInfo name="MacMillian" value="4th edition" />
       </reference>
 
       <reference anchor="Mar78">
         <front>
-          <title>Communications Satellite Systems. Prentice Hall,
-          1978.</title>
+          <title>Communications Satellite Systems</title>
 
-          <author initials="J" surname="Martin" />
+          <author initials="J" surname="Martin"></author>
+
+          <date year="1978" />
         </front>
+
+	<seriesInfo name="Prentice Hall" value="78" />
       </reference>
 
+   
       <reference anchor="Stu95">
         <front>
-          <title>Architecture of the TELEDESIC Satellite System. In
-          Proceedings of the International Mobile Satellite Conference,
-          1995</title>
+          <title>Architecture of the TELEDESIC Satellite System</title>
 
-          <author initials="M.A." surname="Sturza" />
+          <author initials="M.A." surname="Sturza"></author>
+
+          <date year="1995" />
         </front>
+
+	<seriesInfo name="International Mobile Satellite Conference" value="95" />
       </reference>
 
       <reference anchor="Mon98">
         <front>
-          <title>TELEDESIC: Enabling The Global Community Interaccess. In
-          Proc. of the International Wireless Symposium, May 1998</title>
+          <title>TELEDESIC: Enabling The Global Community Interaccess</title>
 
-          <author initials="M.J." surname="Montpetit" />
+          <author initials="M.J." surname="Montpetit"></author>
+
+          <date year="1998" />
         </front>
+
+	<seriesInfo name="International Wireless Symposium" value="98" />
       </reference>
 
       <reference anchor="Jac88">
         <front>
-          <title>Congestion Avoidance and Control. In ACM SIGCOMM,
-          1988</title>
+          <title>Congestion Avoidance and Control</title>
 
-          <author initials="V" surname="Jacobson" />
+          <author initials="V" surname="Jacobson"></author>
+
+          <date year="1988" />
         </front>
+
+	<seriesInfo name="ACM SIGCOMM" value="88" />
       </reference>
+
 
       <reference anchor="FF98">
         <front>
-          <title>Promoting the Use of End-to-End Congestion Control in the
-          Internet. IEEE Transactions on Networking</title>
+          <title>Promoting the Use of End-to-End Congestion Control in the Internet</title>
 
-          <author initials="S" surname="Floyd" />
+          <author initials="S" surname="Floyd"></author>
 
-          <author initials="K" surname="Fall" />
+          <author initials="K" surname="Fall"></author>
+
+          <date year="1999" />
         </front>
+
+	<seriesInfo name="IEEE Transactions on Networking" value="10.1109/90.79302" />
       </reference>
+
 
       <reference anchor="PANRG105">
         <front>
