@@ -209,8 +209,8 @@
           tuning and optimization. In particular it discusses on end-to-end
           considerations, and the mechanisms that impact performance of
           encrypted transports.</t>
-
-          <t>Finally, Section 6 provides a summary of the features recommended
+  
+          <t>Finally, <xref target="s-proto-spec"></xref> provides a summary of the features recommended
           for modern transport protocols.</t>
         </list></t>
     </section>
@@ -652,7 +652,7 @@
 
         <t>End-to-end packet Forward Error Correction offers an alternative to
         retransmission with different trade offs in terms of utilised capacity
-        and repair capability.</t>
+        and repair capability. A solution could be to opportunistically retransmit packets even if they have not been detected as lost but the congestion control allows to transmit more packets.</t>
 
         <t>Network coding as proposed in <xref
         target="I-D.swett-nwcrg-coding-for-quic"> </xref> and <xref
@@ -740,7 +740,7 @@
       </section>
     </section>
 
-    <section title="Protocol Specific Mechanisms">
+    <section anchor="s-proto-spec" title="Protocol Specific Mechanisms">
       <section title="TCP Protocol Mechanisms">
         <section title="Transport Initialization"></section>
 
