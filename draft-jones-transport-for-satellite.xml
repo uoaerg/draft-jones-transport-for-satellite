@@ -10,7 +10,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="info" docName="draft-jones-transport-for-satellite-00"
+<rfc category="info" docName="draft-jones-transport-for-satellite-01"
      ipr="trust200902">
   <!-- category values: std, bcp, info, exp, and historic
      ipr values: full3667, noModification3667, noDerivatives3667
@@ -845,9 +845,9 @@
       inspiration.</t>
 
       <t>The authors would like to thank Christian Huitema, Igor Lubashev,
-      Alexandre Ferrieux, Francois Michel, Emmanuel Lochin and the
-      participants of the IETF106 side-meeting on QUIC for high BDP for their
-      useful feedback.</t>
+      Alexandre Ferrieux, Francois Michel, Emmanuel Lochin, github user
+      sedrubal and the participants of the IETF106 side-meeting on QUIC for
+      high BDP for their useful feedback.</t>
     </section>
 
     <section anchor="sec:ecurity" title="Security Considerations">
@@ -1370,6 +1370,12 @@
           via the
           https://github.com/uoaerg/draft-jones-transport-for-satellite github
           repo in the form of pull requests and issues.</t>
+        </list></t>
+      <t>Individual draft -01:<list style="symbols">
+          <t>Explained Terms Forward and return link</t>
+	  <t>Rearranged text to help the document read better</t>
+	  <t>Fix typos and inaccuracies</t>
+	  <t>Added a mention of MPTCP</t>
         </list></t>
     </section>
   </back>
