@@ -10,7 +10,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
-<rfc category="info" docName="draft-jones-tsvwg-transport-for-satellite-01"
+<rfc category="info" docName="draft-jones-tsvwg-transport-for-satellite-02"
      ipr="trust200902">
   <!-- category values: std, bcp, info, exp, and historic
      ipr values: full3667, noModification3667, noDerivatives3667
@@ -105,8 +105,8 @@
       systems the capacity has increased and commercial systems are now
       available that use a range of satellite orbital positions.</t>
 
-      <t>This document describes the current characterises of common satellite
-      paths and describes considerations when implementing and deploying
+      <t>This document follows the terminology proposed in <xref target="I-D.irtf-panrg-path-properties"></xref> to describe the current characterises of common satellite
+      paths. This document also describes considerations when implementing and deploying
       reliable transport protocols that are intended to work efficiently over
       paths that include a satellite system. It discusses available network
       mitigations and offers advice to designers of protocols and operators of
@@ -186,6 +186,7 @@
       feedback and experience from users and operators of satellite systems
       using other orbits. XXX</t>
 
+<!--
       <t>The remainder of this document is divided as follows:</t>
 
       <t><list style="symbols">
@@ -212,9 +213,40 @@
   
           <t>Finally, <xref target="s-proto-spec"></xref> provides a summary of the features recommended
           for modern transport protocols.</t>
-        </list></t>
+	</list></t>
+-->
     </section>
 
+    <section anchor="pan-terminology" title="SATCOM terminology">
+
+	    <t>This section follows the terminology proposed in <xref target="I-D.irtf-panrg-path-properties"></xref> to describe a generic SATCOM system for broadband access. This description is inline with the one proposed in <xref target="RFC8975"></xref>.</t> 
+	<t>A generic SATCOM system could contain the following entities: <list style="symbols"> 
+		<t>A: A Host providing the end service (e.g. web server);</t>
+		<t>B: A Node being the point-of-presence for the SATCOM system;</t>
+		<t>C: A Node gathering network functions (e.g. firewall, PEP, caching services, etc.);</t>
+		<t>D: A Node gathering MAC and PHY functionnalities (a.k.a. the satellite gateway);</t>
+		<t>E: A Node being one of the satellite (if there are several satellites) (this node could include network layer functions);</t>
+		<t>F: A Node receiving the signal from the satellite (a.k.a. the satellite terminal);</t>
+		<t>G: A Host providing the end service (e.g. web browser).</t>
+	    </list></t>
+	    <t>These entities would be interconnected with path elements which properties differ from one SATCOM system to another. <xref target="I-D.irtf-panrg-path-properties"></xref> provides properties that can be discussed to describe the path. These properties are exploited throughout the whole document to describe SATCOM systems.</t>
+	    <t>While the paths interconnecting the entities (1) A to B, (2) B to C, (3) C to D and (4) F to G are quite generic for all the systems, and not specific for SATCOM systems, some properties need to be discussed:<list style="symbols">
+		<t>Protocol Features available</t>
+		<t>Transport Protocols available</t>
+		<t>Transparency</t>
+	    </list></t>
+	    <t>The paths (1) D to E and (2) D to F are quite specific to SATCOM systems. In particular, the following elements, provided by <xref target="I-D.irtf-panrg-path-properties"></xref>, are in the scope of this document and deserve some description: <list style="symbols">
+		    <t>Symmetric Path</t>
+		    <t>Disjointness</t>
+		    <t>Transparency</t>
+		    <t>Link Capacity</t>
+		    <t>Link Usage</t>
+		    <t>One-Way Delay</t>
+		    <t>One-Way Delay Variation</t>
+		    <t>One-Way Packet Loss</t>
+	    </list></t>
+    </section>
+    
     <section anchor="s-systems" title="Satellite Systems">
       <t>Satellite communications systems have been deployed using many space
       orbits, including low earth orbit, medium earth orbits, geosynchronous
@@ -798,8 +830,8 @@
           target="I-D.roca-nwcrg-rlc-fec-scheme-for-quic"> </xref> could help
           QUIC recover from link or congestion loss.</t>
 
-          <t>Another approach could utilise QUIC tunnels <xref
-          target="I-D.schinazi-masque"> </xref> to apply packet FEC to all or
+          <t>Another approach could utilise QUIC tunnels such as proposed in the MASQUE WG 
+          to apply packet FEC to all or
           a part of the end-to-end path or enable local retransmissions.</t>
         </section>
 
@@ -901,6 +933,8 @@
       <?rfc include="reference.RFC.6928.xml"?>
 	    
       <?rfc include="reference.RFC.9000.xml"?>
+	    
+      <?rfc include="reference.RFC.8975.xml"?>
 
       <!-- <?rfc include="reference.RFC.7928.xml"?> -->
 
@@ -910,7 +944,9 @@
 
       <?rfc include="reference.I-D.roca-nwcrg-rlc-fec-scheme-for-quic.xml"?>
 
-      <?rfc include="reference.I-D.schinazi-masque.xml"?>
+      <?rfc include="reference.I-D.irtf-panrg-path-properties.xml">
+
+      <!-- <?rfc include="reference.I-D.schinazi-masque.xml"?> -->
 
       <!-- <?rfc include="reference.I-D.ferrieux-hamchaoui-quic-lossbits.xml"?> -->
 
